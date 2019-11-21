@@ -8,8 +8,9 @@
             <div class="panel panel-default">
                 <!-- <div class="panel-heading">Tambah Anggota</div> -->
                 <div class="panel-body">
-                <h3>Tambah Penyelia 1</h3>
-                <hr/>
+                        <p class="text-right"><span class="label label-info">Daerah</span></p>
+                        <h3>Tambah Penyelia 1</h3>
+                        <hr/>
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('penyelia_daerah/add') }}">
                         {{ csrf_field() }}
 
@@ -30,7 +31,7 @@
                             <label for="no_badan" class="col-md-4 control-label">No. Badan</label>
 
                             <div class="col-md-6">
-                                <input id="no_badan" type="text" class="form-control" name="no_badan" value="{{ old('no_badan') }}">
+                                <input style="text-transform: uppercase;" id="no_badan" type="text" class="form-control" name="no_badan" value="{{ old('no_badan') }}">
 
                                 @if ($errors->has('no_badan'))
                                     <span class="help-block">
@@ -90,7 +91,7 @@
                                 </div>
                             </div>
                             <div class="form-group{{ $errors->has('negeri') ? ' has-error' : '' }}">
-                                    <label for="negeri" class="col-md-4 control-label">Negeri</label>
+                                    <label for="negeri" class="col-md-4 control-label">Kontinjen</label>
         
                                     <div class="col-md-6">
                                         <select name="negeri" id="negeri" class="form-control selectpicker"

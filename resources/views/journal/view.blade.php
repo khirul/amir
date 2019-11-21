@@ -1,52 +1,56 @@
 @extends('layouts.app')
 @section('content')
 <style>
-    .isi{
-        padding-left: 15px;
+    .table{
+        text-align: justify;
     }
+    /* hilangkan border atas */
+    .table>tbody>tr>td{
+        border: 0px solid ;
+    }
+    .table>tbody>tr>th{
+        border: 0px solid ;
+    }
+    /* ********* */
 </style>
 <div class="container">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="jumbotron">
                     <fieldset>
-                        <legend>Papar Jurnal</legend>
-                        <table class="table table-bordered table-striped" style="width: 100%">
+                        <legend>Papar Cetak Jurnal</legend>
+                        <table class="table table-borderless" style="">
                         <tr>
-                            <th>Tajuk</th>
-                            <td>{{$journal->tajuk_journal}}</td>
+                            <th width="12%;">Tajuk</th>
+                            <td colspan="2">{{$journal->tajuk_journal}}</td>
                         </tr>
                         <tr>
                             <th>Tarikh</th>
-                            <td>{{ \Carbon\Carbon::parse($journal->tarikh_journal)->format('d M Y')}}</td>
+                            <td colspan="2">{{ \Carbon\Carbon::parse($journal->tarikh_journal)->format('d M Y')}}</td>
                         </tr>
                         <tr>
                             <th>Arahan</th>
-                            <td>{{$journal->arahan}}</td>
+                            @if($journal->arahan == '')
+                            <td colspan="2">Tiada</td>
+                            @else
+                            <td colspan="2">{{ $journal->arahan }}</td>
+                            @endif
                         </tr>
+                        <tr><th colspan="3">Tindakan</th></tr>
+                        <?php $bil = 1 ?>
+                            @foreach($journal->article as $listJournal)
                         <tr>
-                            <th>Tindakan</th>
-                            <td>{{$journal->artikel}}</td>
+                            <th>&nbsp;</th>
+                            <td colspan="2">{{ $bil }}.&nbsp;&nbsp;{{$listJournal->artikel}}</td>
                         </tr>
+                        <?php $bil++ ?>
+                            @endforeach
                         <tr>
                             <th>Rujukan Fail</th>
-                            <td>{{$journal->rujukan_fail}}</td>
+                            <td colspan="2">{{$journal->rujukan_fail}}</td>
                         </tr>
                         <tr>
-                            <th>Ulasan Pegawai Penyelia</th>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2"></td>
-                        </tr>
-                        <tr>
-                            <td>{{ $journal->User->name}}</td>
-                            <td>{{ $journal->nama_penyelia()}}</td>
-                        </tr>
-                        <tr>
-                            <td>{{ $journal->jawatan}}</td>
-                            <td>{{ Auth::user()->cawangan }}</td>
-                            <td>{{ $journal->nama_penyelia()}}</td>
+                            <td colspan="3" align="center"><a href="{{route('journal.view_print',$journal->id)}}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="right" title="Cetak" data-original-title=""><i class="glyphicon glyphicon-print"></i> Cetak</a></td>
                         </tr>
                         </table>
                     </fieldset>

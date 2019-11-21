@@ -1,9 +1,10 @@
 @page {
-    margin: 0
+    /* margin: 0 */
+    margin: 2cm;
 }
 
 body {
-    margin: 0
+    margin: 0;
 }
 
 .sheet {
@@ -36,6 +37,18 @@ body.A4 .sheet {
     body.A4 .sheet {
         width: 100%;
         height: 100%;
+        font: 24pt;
+        color: #000;
+    }
+    /* kalo nk break nxt page */
+    .page-break {
+        page-break-after: always;
+    }
+    .ulasan>tbody>tr>td{
+        height:100px;
+        /* overflow:auto;
+        overflow-x:hidden; */
+        border: 1px solid black;
     }
 }
 

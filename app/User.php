@@ -64,7 +64,8 @@ class User extends Authenticatable
         return $this->belongsTo(SubCategory::class);
     }
 
-    public function Roles() {
+    public function Roles() 
+    {
         return $this->hasMany(Role::class);
     }
 
@@ -91,7 +92,8 @@ class User extends Authenticatable
     // seksyen-daerah
     public function State()
     {
-         return $this->belongsTo(State::class);
+        return $this->belongsTo('App\State', 'state_id', 'id');
+        //  return $this->belongsTo(State::class);
     }
 
     // subseksyen-daerah

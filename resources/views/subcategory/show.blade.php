@@ -10,8 +10,8 @@
             	<thead>
             		<tr>
 						<th>Bil</th>
-						<th>Seksyen</th>
-            			<th>Subseksyen</th>
+						<th>Bahagian</th>
+            			<th>Seksyen</th>
             			<th>Tindakan</th>
             			
             		</tr>

@@ -31,7 +31,7 @@
                             <label for="no_badan" class="col-md-4 control-label">No Badan</label>
 
                             <div class="col-md-6">
-                                <input id="no_badan" type="text" class="form-control" name="no_badan" value="{{ old('no_badan') }}">
+                                <input style="text-transform: uppercase;" id="no_badan" type="text" class="form-control" name="no_badan" value="{{ old('no_badan') }}">
 
                                 @if ($errors->has('no_badan'))
                                     <span class="help-block">

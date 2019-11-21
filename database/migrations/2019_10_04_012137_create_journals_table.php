@@ -17,7 +17,7 @@ class CreateJournalsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->string('tajuk_journal', 128);
-            $table->string('arahan', 2048);
+            $table->string('arahan', 2048)->nullable();
             $table->string('tajuk_artikel', 2048);
             // $table->string('artikel', 2048);
             $table->date('tarikh_journal');

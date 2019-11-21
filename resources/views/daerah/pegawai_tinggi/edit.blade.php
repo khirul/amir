@@ -6,8 +6,11 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Kemaskini Profil Pegawai Tinggi</div>
+                {{-- <div class="panel-heading">Kemaskini Profil Pegawai Tinggi</div> --}}
                 <div class="panel-body">
+                        <p class="text-right"><span class="label label-info">Daerah</span></p>
+                        <h3>Kemaskini Profil Pegawai Tinggi</h3>
+                        <hr/>
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('pegawai_tinggi_daerah/edit/'.$petugas->id) }}">
                         {{ csrf_field() }}
 

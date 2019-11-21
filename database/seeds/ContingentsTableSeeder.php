@@ -66,6 +66,10 @@ class ContingentsTableSeeder extends Seeder
                                                             [
                                                                 'kontinjen_name' => 'Sarawak',
                                                             ]);
+                                                            Contingent::create(
+                                                                [
+                                                                    'kontinjen_name' => 'Kuala Lumpur',
+                                                                ]);
         
 	}
 }

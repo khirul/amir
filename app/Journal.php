@@ -9,6 +9,7 @@ class Journal extends Model
     protected $guarded = [ 
        
     ]; 
+    // protected $dates = ['tarikh_journal'];
 
     // Journal
     public function User()
@@ -28,8 +29,8 @@ class Journal extends Model
 
     public function article()
     {
-        return $this->hasMany('App\Article', 'article_id', 'id');
-        // return $this->hasMany(Article::class);
+        // return $this->hasMany('App\Article', 'article_id', 'id');
+        return $this->hasMany(Article::class);
     }
 
     // public function Petugas()

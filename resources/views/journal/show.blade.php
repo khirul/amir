@@ -20,7 +20,7 @@
                         <th>Jenis Laporan</th>
                         <th>Anggota</th>
                         <th>Pegawai Penyelia 1</th>
-                        <th>Kategori</th>
+                        <th>Penilaian</th>
                         @if(Auth::guest() || Auth::user()->Roles->first()->name == 'petugas')
                         <th>Tindakan</th>
                         @endif
@@ -53,10 +53,10 @@
                             <a href="journal/edit/{{ $journal->id }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="left" title="Kemaskini" data-original-title=""><i
                                     class="glyphicon glyphicon-wrench"></i>
                             </a>
+                            <a href="/view/{{ $journal->id }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Paparan Cetak" data-original-title=""><i class="glyphicon glyphicon-print"></i></a>
                             <a href=""
-                                class="btn btn-danger delete btn-sm" data-toggle="modal" data-target="#myModal_delete"><i data-toggle="tooltip" data-placement="top" title="Hapus" data-original-title="" class="glyphicon glyphicon-trash"></i> 
-                            </a>
-                            <a href="/view/{{ $journal->id }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="right" title="Cetak" data-original-title=""><i class="glyphicon glyphicon-print"></i></a>
+                            class="btn btn-danger delete btn-sm" data-toggle="modal" data-target="#myModal_delete"><i data-toggle="tooltip" data-placement="right" title="Hapus" data-original-title="" class="glyphicon glyphicon-trash"></i> 
+                        </a>
                         </td>
                         @endif
                     </tr>
@@ -90,14 +90,4 @@
         </div>
     </div>
 </div>
-<style>
-    .th {
-        width: 11%;
-    }
-
-    .thBahagian {
-        width: 5%;
-    }
-
-</style>
 @endsection

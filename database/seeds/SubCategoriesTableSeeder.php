@@ -15,187 +15,247 @@ class SubCategoriesTableSeeder extends Seeder
      */
 
 	public function run(){
-    SubCategory::create(
-        [
-            'category_id' => '1',
-            'subcategory_name' => 'E2M',
-        ]);
-    	SubCategory::create(
+        SubCategory::create(
             [
                 'category_id' => '1',
-                'subcategory_name' => 'E2A',
+                'subcategory_name' => 'PENYELIDIKAN 1',
             ]);
             SubCategory::create(
                 [
                     'category_id' => '1',
-                    'subcategory_name' => 'E2B',
+                    'subcategory_name' => 'PENYELIDIKAN 2',
                 ]);
                 SubCategory::create(
                     [
                         'category_id' => '1',
+                        'subcategory_name' => 'URUSETIA',
+                    ]);
+        SubCategory::create(
+            [
+                'category_id' => '2',
+                'subcategory_name' => 'E1M',
+            ]);
+            SubCategory::create(
+                [
+                    'category_id' => '2',
+                    'subcategory_name' => 'E1A',
+                ]);
+                SubCategory::create(
+                    [
+                        'category_id' => '2',
+                        'subcategory_name' => 'E1B',
+                    ]);
+    SubCategory::create(
+        [
+            'category_id' => '3',
+            'subcategory_name' => 'E2M',
+        ]);
+    	SubCategory::create(
+            [
+                'category_id' => '3',
+                'subcategory_name' => 'E2A',
+            ]);
+            SubCategory::create(
+                [
+                    'category_id' => '3',
+                    'subcategory_name' => 'E2B',
+                ]);
+                SubCategory::create(
+                    [
+                        'category_id' => '3',
                         'subcategory_name' => 'E2C',
                     ]);
                     SubCategory::create(
                         [
-                            'category_id' => '1',
+                            'category_id' => '3',
                             'subcategory_name' => 'E2D',
                         ]);
 
     SubCategory::create(
         [
-            'category_id' => '2',
+            'category_id' => '4',
             'subcategory_name' => 'E3M',
         ]);
         SubCategory::create(
             [
-                'category_id' => '2',
+                'category_id' => '4',
                 'subcategory_name' => 'E3A',
             ]);
             SubCategory::create(
                 [
-                    'category_id' => '2',
+                    'category_id' => '4',
                     'subcategory_name' => 'E3B',
                 ]);
                 SubCategory::create(
                     [
-                        'category_id' => '2',
+                        'category_id' => '4',
                         'subcategory_name' => 'E3C',
                     ]);
                     SubCategory::create(
                         [
-                            'category_id' => '2',
+                            'category_id' => '4',
                             'subcategory_name' => 'E3D',
                         ]);
+                        SubCategory::create(
+                            [
+                                'category_id' => '4',
+                                'subcategory_name' => 'E3E',
+                            ]);
+                            SubCategory::create(
+                                [
+                                    'category_id' => '4',
+                                    'subcategory_name' => 'E3F',
+                                ]);
+                                SubCategory::create(
+                                    [
+                                        'category_id' => '4',
+                                        'subcategory_name' => 'E3G',
+                                    ]);
+                                    SubCategory::create(
+                                        [
+                                            'category_id' => '4',
+                                            'subcategory_name' => 'E3H',
+                                        ]);
 
     SubCategory::create(
         [
-            'category_id' => '3',
+            'category_id' => '5',
             'subcategory_name' => 'E4M',
         ]);             
         SubCategory::create(
             [
-                'category_id' => '3',
+                'category_id' => '5',
                 'subcategory_name' => 'E4A',
             ]);
             SubCategory::create(
                 [
-                    'category_id' => '3',
+                    'category_id' => '5',
                     'subcategory_name' => 'E4B',
                 ]);
                 SubCategory::create(
                     [
-                        'category_id' => '3',
+                        'category_id' => '5',
                         'subcategory_name' => 'E4C',
                     ]);
                     SubCategory::create(
                         [
-                            'category_id' => '3',
+                            'category_id' => '5',
                             'subcategory_name' => 'E4D',
                         ]);
 
     SubCategory::create(
         [
-            'category_id' => '4',
+            'category_id' => '6',
             'subcategory_name' => 'E5M',
         ]);
         SubCategory::create(
             [
-                'category_id' => '4',
+                'category_id' => '6',
                 'subcategory_name' => 'E5A',
             ]);
             SubCategory::create(
                 [
-                    'category_id' => '4',
+                    'category_id' => '6',
                     'subcategory_name' => 'E5B',
                 ]);
                 SubCategory::create(
                     [
-                        'category_id' => '4',
+                        'category_id' => '6',
                         'subcategory_name' => 'E5C',
                     ]);
-                    SubCategory::create(
-                        [
-                            'category_id' => '4',
-                            'subcategory_name' => 'E5D',
-                        ]);
 
     SubCategory::create(
         [
-            'category_id' => '5',
+            'category_id' => '7',
             'subcategory_name' => 'E6M',
         ]);
         SubCategory::create(
             [
-                'category_id' => '5',
+                'category_id' => '7',
                 'subcategory_name' => 'E6A',
             ]);
             SubCategory::create(
                 [
-                    'category_id' => '5',
+                    'category_id' => '7',
                     'subcategory_name' => 'E6B',
                 ]);
                 SubCategory::create(
                     [
-                        'category_id' => '5',
+                        'category_id' => '7',
                         'subcategory_name' => 'E6C',
                     ]);
                     SubCategory::create(
                         [
-                            'category_id' => '5',
+                            'category_id' => '7',
                             'subcategory_name' => 'E6D',
                         ]);
+                        SubCategory::create(
+                            [
+                                'category_id' => '7',
+                                'subcategory_name' => 'E6E',
+                            ]);
 
     SubCategory::create(
         [
-            'category_id' => '6',
+            'category_id' => '8',
             'subcategory_name' => 'E7M',
         ]);
         SubCategory::create(
             [
-                'category_id' => '6',
+                'category_id' => '8',
                 'subcategory_name' => 'E7A',
             ]);
             SubCategory::create(
                 [
-                    'category_id' => '6',
+                    'category_id' => '8',
                     'subcategory_name' => 'E7B',
                 ]);
                 SubCategory::create(
                     [
-                        'category_id' => '6',
+                        'category_id' => '8',
                         'subcategory_name' => 'E7C',
                     ]);
                     SubCategory::create(
                         [
-                            'category_id' => '6',
+                            'category_id' => '8',
                             'subcategory_name' => 'E7D',
                         ]);
 
     SubCategory::create(
         [
-            'category_id' => '7',
+            'category_id' => '9',
             'subcategory_name' => 'E8M',
         ]);
         SubCategory::create(
             [
-                'category_id' => '7',
+                'category_id' => '9',
                 'subcategory_name' => 'E8A',
             ]);
             SubCategory::create(
                 [
-                    'category_id' => '7',
+                    'category_id' => '9',
                     'subcategory_name' => 'E8B',
                 ]);
                 SubCategory::create(
                     [
-                        'category_id' => '7',
+                        'category_id' => '9',
                         'subcategory_name' => 'E8C',
                     ]);
                     SubCategory::create(
                         [
-                            'category_id' => '7',
+                            'category_id' => '9',
                             'subcategory_name' => 'E8D',
                         ]);
+                        SubCategory::create(
+                            [
+                                'category_id' => '9',
+                                'subcategory_name' => 'E8E',
+                            ]);
+                            SubCategory::create(
+                                [
+                                    'category_id' => '9',
+                                    'subcategory_name' => 'E8F',
+                                ]);
                 
         
 	}

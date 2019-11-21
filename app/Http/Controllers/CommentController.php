@@ -10,8 +10,16 @@ use Session;
 
 class CommentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     public function add(Request $request, $id) {
+        $this->validate(request(),[
+            'comment'=>'required'
+            ]);
+
         $data = $request->all();
     	$comment = new Comment(['comment'=>$data['comment'], 'journal_id'=>$id]);
     	$user = Auth::User();
@@ -21,11 +29,14 @@ class CommentController extends Controller
         // return redirect('journal');
     }
 
-    // public function destroy($articleId, $commentId) {
-    //     $user = Auth::user();
-    //     if($user->admin) Comment::destroy($commentId);
-    //     return redirect(route('journal.tindakan', $articleId));
-    // }
+    public function destroy($journalId, $commentId) {
+        $user = Auth::user();
+        $comment = Comment::find($commentId);
+        // return $comment;
+        if(Auth::User()->id == $comment->user->id) Comment::destroy($commentId);
+        return redirect()->route('action', $journalId); 
+        // return redirect(route('journal.tindakan', $journalId));
+    }
     
     // public function add(Comment $id, Request $request)
     // {

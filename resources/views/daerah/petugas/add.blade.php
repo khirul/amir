@@ -31,7 +31,7 @@
                             <label for="no_badan" class="col-md-4 control-label">No. Badan</label>
 
                             <div class="col-md-6">
-                                <input id="no_badan" type="text" class="form-control" name="no_badan" value="{{ old('no_badan') }}">
+                                <input style="text-transform: uppercase;" id="no_badan" type="text" class="form-control" name="no_badan" value="{{ old('no_badan') }}">
 
                                 @if ($errors->has('no_badan'))
                                     <span class="help-block">
@@ -92,7 +92,7 @@
                                 </div>
                             </div>
                         <div class="form-group{{ $errors->has('negeri') ? ' has-error' : '' }}">
-                            <label for="negeri" class="col-md-4 control-label">Negeri</label>
+                            <label for="negeri" class="col-md-4 control-label">Kontinjen</label>
 
                             <div class="col-md-6">
                                 <select name="negeri" id="negeri" class="form-control selectpicker"
@@ -115,7 +115,7 @@
 
                             <div class="col-md-6">
                                 <select name="daerah" id="SUB5" class="form-control">
-                                    <option>--Subseksyen--</option>
+                                    <option>--Daerah--</option>
                                 </select>
                             </div>
                         </div>

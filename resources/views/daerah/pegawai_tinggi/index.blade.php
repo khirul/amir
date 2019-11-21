@@ -22,6 +22,7 @@
             		</tr>
             	</thead>
             	<tbody>
+				@if(Auth::user() && Auth::user()->Roles->first()->name == 'admin')
             	@foreach($pegawai as $officer)
             		<tr>
 						<td>{{ $officer->name }}</td>
@@ -35,7 +36,25 @@
             			<a href="pegawai_tinggi_daerah/delete/{{ $officer->id }}" class="btn btn-danger delete btn-sm" ><i class="glyphicon glyphicon-trash"></i></a>
             			 </td>
             		</tr>
-            	@endforeach
+				@endforeach
+				@elseif(Auth::user() && Auth::user()->Roles->first()->name == 'admin_kontinjen')
+				@foreach($pegawai as $officer)
+				@if($officer->state_id == Auth::user()->state_id)
+				<tr>
+					<td>{{ $officer->name }}</td>
+					<td>{{ $officer->Pangkat->rank_name }}</td>
+					<td>{{ $officer->jawatan }}</td>
+					<td>{{ $officer->email }}</td>
+					<td>{{ $officer->District->district_name }}</td>
+					<!-- <td>{{ $officer->Comment->count() }}</td> -->
+					<td>
+					<a href="pegawai_tinggi_daerah/edit/{{ $officer->id }}" class="btn btn-info btn-sm"><i class="glyphicon glyphicon-pencil"></i></a>
+					<a href="pegawai_tinggi_daerah/delete/{{ $officer->id }}" class="btn btn-danger delete btn-sm" ><i class="glyphicon glyphicon-trash"></i></a>
+					 </td>
+				</tr>
+				@endif
+				@endforeach
+				@endif
             	</tbody>
             </table>
         </div>

@@ -13,6 +13,7 @@ use App\SubCategory;
 use App\Seccontingent;
 use App\SubSeccontingent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class Supervisor2Controller extends Controller
 {
@@ -53,7 +54,7 @@ class Supervisor2Controller extends Controller
             'no_badan'=>'required|unique:users',
             'rank'=>'required',
             'jawatan'=>'required',
-            'email'=>'required',
+            'email'=>'required|unique:users',
             'cawangan'=>'required',
             'category'=>'required',
             'role' => 'required',
@@ -86,16 +87,33 @@ class Supervisor2Controller extends Controller
 
     public function edit(User $petugas)
  	{
- 		return view('penyelia_2.edit',['petugas'=>$petugas]);
+        $ranks= Rank::all();
+        $categories= Category::all();
+ 		return view('penyelia_2.edit',['petugas'=>$petugas,'ranks'=>$ranks,'categories'=>$categories]);
     }
 
     public function update(User $petugas,Request $request)
  	{
- 		$this->rules['email'].=',email,'.$petugas->email.',email';
-    	$this->validate($request,$this->rules);
-		$petugas->fill($request->all());
-		$petugas->password=bcrypt(request()->password);
-		$petugas->save();
+        $this->validate(request(),[
+            'name'=>'required',
+            'rank'=>'required',
+            'jawatan'=>'required',
+            'email'=>'required',
+            'cawangan'=>'required',
+            'category'=>'required',
+            'password' =>'required'
+            ]);
+
+        $petugas->name=(request()->name);
+        $petugas->jawatan=(request()->jawatan);
+        $petugas->email=(request()->email);
+        $petugas->cawangan=(request()->cawangan);
+        $petugas->password=bcrypt(request()->password);
+        $petugas->rank_id = request()->rank;
+        $petugas->status=(request()->status);
+        $petugas->category_id = request()->category;
+        $petugas->subcategory_id = request()->subcategory_id;
+        $petugas->save();
     	Session::flash('flash_message', 'Profil penyelia 2 berjaya dikemaskini!');
     	return redirect('senarai_penyelia_2');
      }
@@ -123,10 +141,11 @@ class Supervisor2Controller extends Controller
 
     public function addKontinjen()
     {
+        $states= State::all();
         $ranks= Rank::all();
         $categories= Seccontingent::all();
         $contingents= Contingent::all();
-        return view('kontinjen.penyelia_2.add', compact('categories','contingents','ranks'));
+        return view('kontinjen.penyelia_2.add', compact('categories','contingents','ranks','states'));
     }
 
     public function getSubcategoryKontinjen($id)
@@ -143,8 +162,8 @@ class Supervisor2Controller extends Controller
             'no_badan'=>'required|unique:users',
             'rank'=>'required',
             'jawatan'=>'required',
-            'email'=>'required',
-            'kontinjen'=>'required',
+            'email'=>'required|unique:users',
+            'negeri'=>'required',
             'seksyen'=>'required',
             'password' => 'required'
             
@@ -158,6 +177,7 @@ class Supervisor2Controller extends Controller
         $user->email=(request()->email);
         $user->cawangan=(request()->cawangan);
         $user->kontinjen=(request()->kontinjen);
+        $user->state_id = request()->negeri;
         $user->seccontingent_id = request()->seksyen;
         $user->sub_seccontingent_id = request()->subcategorycontingent_id;
         $user->password=bcrypt(request()->password);
@@ -174,16 +194,39 @@ class Supervisor2Controller extends Controller
 
     public function editKontinjen(User $petugas)
  	{
- 		return view('kontinjen.penyelia_2.edit',['petugas'=>$petugas]);
+        $states= State::all();
+        $categories= Seccontingent::all();
+        $contingents= Contingent::all();
+        $ranks= Rank::all();
+ 		return view('kontinjen.penyelia_2.edit',['petugas'=>$petugas,'ranks'=>$ranks,'contingents'=>$contingents,'categories'=>$categories,'states'=>$states]);
     }
-     
- 	public function updateKontinjen(User $petugas,Request $request)
+
+    public function updateKontinjen(User $petugas,Request $request)
  	{
- 		$this->rules['email'].=',email,'.$petugas->email.',email';
-    	$this->validate($request,$this->rules);
-		$petugas->fill($request->all());
-		$petugas->password=bcrypt(request()->password);
-		$petugas->save();
+        //  dd($_POST);
+        $this->validate(request(),[
+            'name'=>'required',
+            'rank'=>'required',
+            'jawatan'=>'required',
+            'email'=>'required',
+            'negeri'=>'required',
+            'seksyen'=>'required',
+            'password' => 'required'
+            ]);
+         
+        $petugas->name=(request()->name);
+        $petugas->jawatan=(request()->jawatan);
+        $petugas->rank_id = request()->rank;
+        $petugas->email=(request()->email);
+        $petugas->cawangan=(request()->cawangan);
+        $petugas->kontinjen=(request()->kontinjen);
+        $petugas->state_id = request()->negeri;
+        $petugas->status=(request()->status);
+        $petugas->seccontingent_id = request()->seksyen;
+        $petugas->sub_seccontingent_id = request()->subcategorycontingent_id;
+        $petugas->password=bcrypt(request()->password);
+        $petugas->status=(request()->status);
+        $petugas->save();
     	Session::flash('flash_message', 'Profil penyelia 2 berjaya dikemaskini!');
     	return redirect('senarai_penyelia_2_kontinjen');
      }
@@ -231,7 +274,7 @@ class Supervisor2Controller extends Controller
             'no_badan'=>'required|unique:users',
             'rank'=>'required',
             'jawatan'=>'required',
-            'email'=>'required',
+            'email'=>'required|unique:users',
             'cawangan'=>'required',
             'category'=>'required',
             'role' => 'required',
@@ -265,7 +308,9 @@ class Supervisor2Controller extends Controller
 
     public function editPegawaiTinggi(User $pegawai)
     {
-        return view('pegawai_tinggi.edit',['pegawai'=>$pegawai]);
+        $ranks= Rank::all();
+        $categories= Category::all();
+        return view('pegawai_tinggi.edit',['pegawai'=>$pegawai,'ranks'=>$ranks,'categories'=>$categories]);
     }
     
     public function updatePegawaiTinggi(User $pegawai,Request $request)
@@ -276,7 +321,12 @@ class Supervisor2Controller extends Controller
        $pegawai->password=bcrypt(request()->password);
        $pegawai->save();
        Session::flash('flash_message', 'Profil Pegawai Tinggi berjaya dikemaskini!');
-       return redirect('senarai_pegawai_tinggi');
+
+       if($pegawai->id == Auth::user()->id){
+        return redirect('home');
+        }else{
+            return redirect('senarai_pegawai_tinggi');
+        }
     }
 
     public function deletePegawaiTinggi(User $pegawai)
@@ -304,10 +354,11 @@ class Supervisor2Controller extends Controller
 
      public function addPegawaiTinggiKontinjen()
     {
+        $states= State::all();
         $ranks= Rank::all();
         $categories= Seccontingent::all();
         $contingents= Contingent::all();
-        return view('kontinjen.pegawai_tinggi.add', compact('categories','contingents','ranks'));
+        return view('kontinjen.pegawai_tinggi.add', compact('categories','contingents','ranks','states'));
     }
 
     public function storePegawaiTinggiKontinjen()
@@ -318,8 +369,8 @@ class Supervisor2Controller extends Controller
             'no_badan'=>'required|unique:users',
             'rank'=>'required',
             'jawatan'=>'required',
-            'email'=>'required',
-            'kontinjen'=>'required',
+            'email'=>'required|unique:users',
+            'negeri'=>'required',
             'seksyen'=>'required',
             'password' => 'required'
             
@@ -333,6 +384,7 @@ class Supervisor2Controller extends Controller
         $user->email=(request()->email);
         $user->cawangan=(request()->cawangan);
         $user->kontinjen=(request()->kontinjen);
+        $user->state_id = request()->negeri;
         $user->seccontingent_id = request()->seksyen;
         $user->sub_seccontingent_id = request()->subcategorycontingent_id;
         $user->password=bcrypt(request()->password);
@@ -349,7 +401,11 @@ class Supervisor2Controller extends Controller
 
     public function editPegawaiTinggiKontinjen(User $petugas)
  	{
- 		return view('kontinjen.pegawai_tinggi.edit',['petugas'=>$petugas]);
+        $states= State::all();
+        $ranks= Rank::all();
+        $categories= Seccontingent::all();
+        $contingents= Contingent::all();
+ 		return view('kontinjen.pegawai_tinggi.edit',['petugas'=>$petugas,'states'=>$states,'ranks'=>$ranks,'categories'=>$categories,'contingents'=>$contingents]);
     }
      
  	public function updatePegawaiTinggiKontinjen(User $petugas,Request $request)
@@ -405,7 +461,7 @@ class Supervisor2Controller extends Controller
              'no_badan'=>'required|unique:users',
              'rank'=>'required',
              'jawatan'=>'required',
-             'email'=>'required',
+             'email'=>'required|unique:users',
              'negeri'=>'required',
              'password' => 'required'
              
@@ -434,18 +490,39 @@ class Supervisor2Controller extends Controller
  
      public function editDaerah(User $petugas)
       {
-          return view('daerah.penyelia_2.edit',['petugas'=>$petugas]);
+        $ranks= Rank::all();
+        $states= State::all();
+          return view('daerah.penyelia_2.edit',['petugas'=>$petugas,'ranks'=>$ranks,'states'=>$states]);
      }
       
       public function updateDaerah(User $petugas,Request $request)
       {
-          $this->rules['email'].=',email,'.$petugas->email.',email';
-         $this->validate($request,$this->rules);
-         $petugas->fill($request->all());
-         $petugas->password=bcrypt(request()->password);
-         $petugas->save();
-         Session::flash('flash_message', 'Profil penyelia 2 berjaya dikemaskini!');
-         return redirect('senarai_penyelia_2_daerah');
+        $this->validate(request(),[
+            'name'=>'required',
+            'rank'=>'required',
+            'jawatan'=>'required',
+            'email'=>'required',
+            'negeri'=>'required',
+            'password' => 'required'
+            ]);
+
+        $petugas->name=(request()->name);
+        $petugas->jawatan=(request()->jawatan);
+        $petugas->rank_id = request()->rank;
+        $petugas->email=(request()->email);
+        $petugas->cawangan=(request()->cawangan);
+        $petugas->state_id = request()->negeri;
+        $petugas->district_id = request()->daerah;
+        $petugas->password=bcrypt(request()->password);
+        $petugas->status=(request()->status);
+        $petugas->save();
+        Session::flash('flash_message', 'Profil penyelia 2 berjaya dikemaskini!');
+        if($petugas->id == Auth::user()->id){
+            return redirect('home');
+        }else{
+            return redirect('senarai_penyelia_2_daerah');
+        }
+        
       }
  
      public function deleteDaerah(User $petugas)
@@ -491,7 +568,7 @@ class Supervisor2Controller extends Controller
             'no_badan'=>'required|unique:users',
             'rank'=>'required',
             'jawatan'=>'required',
-            'email'=>'required',
+            'email'=>'required|unique:users',
             'negeri'=>'required',
             'password' => 'required'
             
@@ -520,7 +597,9 @@ class Supervisor2Controller extends Controller
 
     public function editPegawaiTinggiDaerah(User $petugas)
      {
-         return view('daerah.pegawai_tinggi.edit',['petugas'=>$petugas]);
+        $ranks= Rank::all();
+        $states= State::all();
+         return view('daerah.pegawai_tinggi.edit',['petugas'=>$petugas,'ranks'=>$ranks,'states'=>$states]);
     }
      
      public function updatePegawaiTinggiDaerah(User $petugas,Request $request)
@@ -531,7 +610,12 @@ class Supervisor2Controller extends Controller
         $petugas->password=bcrypt(request()->password);
         $petugas->save();
         Session::flash('flash_message', 'Profil Pegawai Tinggi berjaya dikemaskini!');
-        return redirect('senarai_pegawai_tinggi_daerah');
+        if($petugas->id == Auth::user()->id){
+            return redirect('home');
+        }else{
+            return redirect('senarai_pegawai_tinggi_daerah');
+        }
+        
      }
 
     public function deletePegawaiTinggiDaerah(User $petugas)

@@ -9,7 +9,7 @@
                 <!-- <div class="panel-heading">Tambah Anggota</div> -->
                 <div class="panel-body">
                 <p class="text-right"><span class="label label-info">Kontinjen</span></p>
-                <h3>Tambah Pegawai</h3>
+                <h3>Tambah Pegawai Tinggi</h3>
                 <hr/>
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('pegawai_tinggi_kontinjen/add') }}">
                         {{ csrf_field() }}
@@ -31,7 +31,7 @@
                             <label for="no_badan" class="col-md-4 control-label">No Badan</label>
 
                             <div class="col-md-6">
-                                <input id="no_badan" type="text" class="form-control" name="no_badan" value="{{ old('no_badan') }}">
+                                <input style="text-transform: uppercase;" id="no_badan" type="text" class="form-control" name="no_badan" value="{{ old('no_badan') }}">
 
                                 @if ($errors->has('no_badan'))
                                     <span class="help-block">
@@ -90,7 +90,7 @@
                                     <input id="cawangan" type="text" class="form-control" name="cawangan" value="Kontinjen">
                                 </div>
                             </div>
-                            <div class="form-group{{ $errors->has('kontinjen') ? ' has-error' : '' }}">
+                            {{-- <div class="form-group{{ $errors->has('kontinjen') ? ' has-error' : '' }}">
                                     <label for="kontinjen" class="col-md-4 control-label">Kontinjen</label>
                                     <div class="col-md-6">
                                         <select name="kontinjen" id="kontinjen" class="form-control selectpicker"
@@ -103,6 +103,25 @@
                                         @if ($errors->has('kontinjen'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('kontinjen') }}</strong>
+                                        </span>
+                                        @endif
+                                    </div>
+                                </div> --}}
+                                <div class="form-group{{ $errors->has('negeri') ? ' has-error' : '' }}">
+                                    <label for="negeri" class="col-md-4 control-label">Kontinjen</label>
+        
+                                    <div class="col-md-6">
+                                        <select name="negeri" id="negeri" class="form-control selectpicker"
+                                            data-live-search="true">
+                                            <option value="">--Sila Pilih--</option>
+                                            @foreach($states as $negeri)
+                                            <option value="{{ $negeri->id }}">{{ $negeri->state_name }}</option>
+                                            @endforeach
+                                        </select>
+        
+                                        @if ($errors->has('negeri'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('negeri') }}</strong>
                                         </span>
                                         @endif
                                     </div>
@@ -139,7 +158,7 @@
                                     <label for="role" class="col-md-4 control-label">Tugas</label>
         
                                     <div class="col-md-6">
-                                        <input id="role" type="text" class="form-control" name="role" value="pemproses">
+                                        <input id="role" type="text" class="form-control" name="role" value="kck">
         
                                         @if ($errors->has('role'))
                                             <span class="help-block">

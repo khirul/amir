@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(SubSecContigentsTableSeeder::class);
         $this->call(RanksTableSeeder::class);
         $this->call(ContingentsTableSeeder::class);
+        $this->call(DistrictsTableSeeder::class);
     }
 }

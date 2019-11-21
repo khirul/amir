@@ -15,6 +15,14 @@ class CategoriesTableSeeder extends Seeder
      */
 
 	public function run(){
+    Category::create(
+        [
+            'category_name' => 'BP&K',
+        ]);
+    Category::create(
+            [
+                'category_name' => 'E1M',
+            ]);
     	Category::create(
             [
                 'category_name' => 'E2M',

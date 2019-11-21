@@ -10,10 +10,15 @@ use App\Article;
 use App\Comment;
 use App\Journal;
 use App\Observer;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class JournalController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     // asal without kontinjen
     // public function index()
     // {
@@ -49,6 +54,8 @@ class JournalController extends Controller
     // }
 
     // within kontinjen
+
+    // hanya penyelia 1 yg diselect shj bole tgk (ERROR KAT ANGGOTA BA)**********
     public function index()
     {
         $journals = [];
@@ -57,16 +64,26 @@ class JournalController extends Controller
         if(Auth::user()->cawangan == 'Bukit Aman'){
             if(Auth::user()->Roles->first()->name == 'kpp' || Auth::user()->Roles->first()->name == 'pp' || Auth::user()->Roles->first()->name == 'admin'){
                 foreach($journalAll as $j){
-                    // admin ada access smua
                             if($j->User->category_id == Auth::user()->category_id  || Auth::user()->Roles->first()->name == 'admin'){
-                        // admin xde access smua
-                        // if($j->User->category_id == Auth::user()->category_id){
+                            $journals[]= $j;
+                        }
+                }
+            }
+            if(Auth::user()->Roles->first()->name == 'penyelia'){
+                foreach($journalAll as $j){
+                        if($j->User->subcategory_id == Auth::user()->subcategory_id){
+                            $journals[]= $j;
+                        }
+                }
+            }if(Auth::user()->Roles->first()->name == 'pemproses'){
+                foreach($journalAll as $j){
+                        if($j->User->subcategory_id == Auth::user()->subcategory_id){
                             $journals[]= $j;
                         }
                 }
             }else{
                 foreach($journalAll as $j){
-                        if($j->User->subcategory_id == Auth::user()->subcategory_id){
+                            if($j->User->id == Auth::user()->id){
                             $journals[]= $j;
                         }
                 }
@@ -87,13 +104,31 @@ class JournalController extends Controller
             
             if(Auth::user()->Roles->first()->name == 'kck'){
                 foreach($journalAll as $j){
-                        if($j->User->kontinjen == Auth::user()->kontinjen){
+                    // semua kontinjen & daerah klua
+                        // if($j->User->state_id == Auth::user()->state_id){
+                        //     $journals[]= $j;
+                        // }
+                        if(($j->User->cawangan == 'Kontinjen') && $j->User->state_id == Auth::user()->state_id){
+                            $journals[]= $j;
+                        }
+                }
+            }
+            if(Auth::user()->Roles->first()->name == 'penyelia'){
+                foreach($journalAll as $j){
+                        if($j->User->seccontingent_id == Auth::user()->seccontingent_id){
+                            $journals[]= $j;
+                        }
+                }
+            }if(Auth::user()->Roles->first()->name == 'pemproses'){
+                foreach($journalAll as $j){
+                        if($j->User->sub_seccontingent_id == Auth::user()->sub_seccontingent_id
+                        && $j->penyelia == Auth::user()->id){
                             $journals[]= $j;
                         }
                 }
             }else{
                 foreach($journalAll as $j){
-                        if($j->User->sub_seccontingent_id == Auth::user()->sub_seccontingent_id){
+                            if($j->User->id == Auth::user()->id){
                             $journals[]= $j;
                         }
                 }
@@ -113,13 +148,26 @@ class JournalController extends Controller
         }else{
             if(Auth::user()->Roles->first()->name == 'kckd'){
                 foreach($journalAll as $j){
-                        if($j->User->state_id == Auth::user()->state_id){
+                        if($j->User->district_id == Auth::user()->district_id){
+                            $journals[]= $j;
+                        }
+                }
+            }elseif(Auth::user()->Roles->first()->name == 'penyelia'){
+                foreach($journalAll as $j){
+                        if($j->User->district_id == Auth::user()->district_id){
+                            $journals[]= $j;
+                        }
+                }
+            }elseif(Auth::user()->Roles->first()->name == 'pemproses'){
+                foreach($journalAll as $j){
+                        if($j->User->district_id == Auth::user()->district_id &&
+                        $j->penyelia == Auth::user()->id){
                             $journals[]= $j;
                         }
                 }
             }else{
                 foreach($journalAll as $j){
-                        if($j->User->district_id == Auth::user()->district_id){
+                            if($j->User->id == Auth::user()->id){
                             $journals[]= $j;
                         }
                 }
@@ -141,6 +189,134 @@ class JournalController extends Controller
         return view('journal.show',['journalRpt'=>$journals,'other_journal'=>$other_journal]);
     }
 
+    // utk kck view maklumat dari daerah
+    public function indexKCK()
+    {
+        $journals = [];
+        $journalAll = Journal::orderBy('created_at', 'desc')->get();
+        
+        if(Auth::user()->cawangan == 'Kontinjen'){
+            
+            if(Auth::user()->Roles->first()->name == 'kck'){
+                foreach($journalAll as $j){
+                    // semua kontinjen & daerah klua
+                        // if($j->User->state_id == Auth::user()->state_id){
+                        //     $journals[]= $j;
+                        // }
+                        if(($j->User->cawangan == 'Daerah') && $j->User->state_id == Auth::user()->state_id){
+                            $journals[]= $j;
+                        }
+                }
+            }
+            
+            $journal_id = [];
+            $other_journal = [];
+            $obs = Observer::all();
+            foreach($obs as $o){
+                if($o->user_id == Auth::user()->id){
+                    $journal_id[] = $o->journal_id;
+                }
+            }
+            foreach($journal_id as $j){
+                $k = Journal::find($j);
+                $other_journal[] = $k;
+            }
+        }
+        
+        return view('journal.show_kck',['journalRpt'=>$journals,'other_journal'=>$other_journal]);
+    }
+
+
+    // index smua penyelia 1 bole tgk semua journal **********
+    // public function index()
+    // {
+    //     $journals = [];
+    //     $journalAll = Journal::orderBy('created_at', 'desc')->get();
+        
+    //     if(Auth::user()->cawangan == 'Bukit Aman'){
+    //         if(Auth::user()->Roles->first()->name == 'kpp' || Auth::user()->Roles->first()->name == 'pp' || Auth::user()->Roles->first()->name == 'admin'){
+    //             foreach($journalAll as $j){
+    //                         if($j->User->category_id == Auth::user()->category_id  || Auth::user()->Roles->first()->name == 'admin'){
+    //                         $journals[]= $j;
+    //                     }
+    //             }
+    //         }else{
+    //             foreach($journalAll as $j){
+    //                     if($j->User->subcategory_id == Auth::user()->subcategory_id){
+    //                         $journals[]= $j;
+    //                     }
+    //             }
+    //         }
+    //         $journal_id = [];
+    //         $other_journal = [];
+    //         $obs = Observer::all();
+    //         foreach($obs as $o){
+    //             if($o->user_id == Auth::user()->id){
+    //                 $journal_id[] = $o->journal_id;
+    //             }
+    //         }
+    //         foreach($journal_id as $j){
+    //             $k = Journal::find($j);
+    //             $other_journal[] = $k;
+    //         }
+    //     }elseif(Auth::user()->cawangan == 'Kontinjen'){
+            
+    //         if(Auth::user()->Roles->first()->name == 'kck'){
+    //             foreach($journalAll as $j){
+    //                     if($j->User->kontinjen == Auth::user()->kontinjen){
+    //                         $journals[]= $j;
+    //                     }
+    //             }
+    //         }else{
+    //             foreach($journalAll as $j){
+    //                     if($j->User->sub_seccontingent_id == Auth::user()->sub_seccontingent_id){
+    //                         $journals[]= $j;
+    //                     }
+    //             }
+    //         }
+    //         $journal_id = [];
+    //         $other_journal = [];
+    //         $obs = Observer::all();
+    //         foreach($obs as $o){
+    //             if($o->user_id == Auth::user()->id){
+    //                 $journal_id[] = $o->journal_id;
+    //             }
+    //         }
+    //         foreach($journal_id as $j){
+    //             $k = Journal::find($j);
+    //             $other_journal[] = $k;
+    //         }
+    //     }else{
+    //         if(Auth::user()->Roles->first()->name == 'kckd'){
+    //             foreach($journalAll as $j){
+    //                     if($j->User->state_id == Auth::user()->state_id){
+    //                         $journals[]= $j;
+    //                     }
+    //             }
+    //         }else{
+    //             foreach($journalAll as $j){
+    //                     if($j->User->district_id == Auth::user()->district_id){
+    //                         $journals[]= $j;
+    //                     }
+    //             }
+    //         }
+    //         $journal_id = [];
+    //         $other_journal = [];
+    //         $obs = Observer::all();
+    //         foreach($obs as $o){
+    //             if($o->user_id == Auth::user()->id){
+    //                 $journal_id[] = $o->journal_id;
+    //             }
+    //         }
+    //         foreach($journal_id as $j){
+    //             $k = Journal::find($j);
+    //             $other_journal[] = $k;
+    //         }
+    //     }
+        
+    //     return view('journal.show',['journalRpt'=>$journals,'other_journal'=>$other_journal]);
+    // }
+
     // public function indexPengarah()
     // {
     //     $journalAll = Journal::orderBy('created_at', 'desc')->get();
@@ -158,7 +334,6 @@ class JournalController extends Controller
     public function add()
     {
         // penyelia
-
         $penyelia = [];
         $role = Role::all();
         foreach ($role as $r) {
@@ -211,14 +386,14 @@ class JournalController extends Controller
                 foreach( request()->artikel as $index => $artikel ) 
                 {
                     $article = new Article;
+                    $article->journal_id=$journal->id;
                     $article->artikel=$artikel;
-                    $journal->article()->save($article);
+                    $article->save();
                    
                 
                 }
             }
         };
-        // $journal->save();
 	    Session::flash('flash_message', 'Jurnal berjaya dihantar!');
         return redirect('journal');
 	     
@@ -243,58 +418,48 @@ class JournalController extends Controller
         return view('journal.edit',['journal'=>$journal,'staff'=>$penyelia1]);
     }
     
-    public function updateEdit(Journal $journal, Request $request)
+    public function updateEdit(Request $request, Journal $journal)
     {
         // dd($_POST);
         $this->validate(request(),
         [   
             'tajuk_journal'=>'required',
             'tajuk_artikel'=>'required',
-            'arahan'=>'required',
             'artikel'=>'required',
             'tarikh_journal'=>'required',
             'rujukan_fail'=>'required',
             'penyelia'=>'required'
         ]);
 
-        // method lama x ubah kategori
-        // $journal->tajuk_journal = $request->input('tajuk_journal');
-        // $journal->arahan = $request->input('arahan');
-        // $journal->artikel = $request->input('artikel');
-        // $journal->tarikh_journal = $request->input('tarikh_journal');
-        // $journal->rujukan_fail = $request->input('rujukan_fail');
-        // $journal->penyelia = $request->input('penyelia');
-        // $journal->save();
-        $journal->fill
-        (["tajuk_journal"=>request()->tajuk_journal,
-          "arahan"=>request()->arahan,
-          "artikel"=>request()->artikel,
-          "tarikh_journal"=>request()->tarikh_journal,
-          "rujukan_fail"=>request()->rujukan_fail,
-          "tindakan"=>null,
-          "penyelia"=>request()->penyelia,
-        $journal->tajuk_artikel=(request()->tajuk_artikel),
-        ]);
-        $journal->save();
+       
+            $journal->tajuk_journal=request()->tajuk_journal;
+            $journal->arahan=request()->arahan;
+            $journal->tarikh_journal=request()->tarikh_journal;
+            $journal->rujukan_fail=request()->rujukan_fail;
+            $journal->tindakan=null;
+            $journal->penyelia=request()->penyelia;
+            $journal->tajuk_artikel=(request()->tajuk_artikel);
+        
+        if ($journal->save()){
+            // kene destroy..kalo x akan redundant data dlm db
+            foreach ($journal->article as $inf) {
+                Article::destroy($inf->id);
+            }
+            
+            foreach($request->artikel as $index => $maklumat )    
+            if($maklumat!=''){
+                {
+                    $article = new Article;
+                    $article->journal_id = $journal->id;
+                    $article->artikel = $maklumat;
+                    $article->save();
+                    
+                }
+            }
+        }
     	Session::flash('flash_message', 'Jurnal berjaya dikemaskini!');
     	return redirect('journal');    	
     }
-    // public function updateEdit(Journal $journal, Request $request)
-    // {
-    //     // dd($_POST);
-    //     $this->validate(request(),
-    //     [   
-    //         'tajuk_journal'=>'required',
-    //         'artikel'=>'required',
-    //         'tarikh_journal'=>'required',
-    //         'rujukan_fail'=>'required',
-    //         'penyelia'=>'required'
-    //     ]);
-
-    //     $journal->fill($request->all())->save();
-    // 	Session::flash('flash_message', 'Journal berjaya dikemaskini!');
-    // 	return redirect('journal');    	
-    // }
 
     // Kategori Tindakan
     public function update(Journal $journal, Request $request)
@@ -354,7 +519,7 @@ class JournalController extends Controller
         }
 
         $journal->fill($request->all())->save();
-        Session::flash('flash_message', 'Kategori Tindakan berjaya dihantar!');
+        Session::flash('flash_message', 'Penilaian berjaya dihantar!');
         return redirect()->route('action', $journal->id); 
     }
 
@@ -374,11 +539,8 @@ class JournalController extends Controller
     public function view(Journal $journal)
     
     {
-        return view('journal.view',['journal'=>$journal]);
-    }
-
-    public function test_method(){
-        return 1;
+        $articles = Article::all();
+        return view('journal.view',['journal'=>$journal,'articles'=>$articles]);
     }
     
 }

@@ -66,6 +66,10 @@ class StatesTableSeeder extends Seeder
                                                             [
                                                                 'state_name' => 'Sarawak',
                                                             ]);
+                                                            State::create(
+                                                                [
+                                                                    'state_name' => 'Kuala Lumpur',
+                                                                ]);
         
 	}
 }

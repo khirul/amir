@@ -22,5 +22,33 @@ class SecContingentsTableSeeder extends Seeder
                 [
                     'section_name' => 'Timbalan Ketua Cawangan Khas',
                 ]);
+                    Seccontingent::create(
+                        [
+                            'section_name' => 'E2',
+                        ]);
+                        Seccontingent::create(
+                            [
+                                'section_name' => 'E3',
+                            ]);
+                            Seccontingent::create(
+                                [
+                                    'section_name' => 'E4',
+                                ]);
+                                Seccontingent::create(
+                                    [
+                                        'section_name' => 'E5',
+                                    ]);
+                                    Seccontingent::create(
+                                        [
+                                            'section_name' => 'E6',
+                                        ]);
+                                        Seccontingent::create(
+                                            [
+                                                'section_name' => 'E7',
+                                            ]);
+                                            Seccontingent::create(
+                                                [
+                                                    'section_name' => 'E8',
+                                                ]);
 	}
 }

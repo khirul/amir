@@ -1,6 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    .panel-body{
+        -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.20);
+        -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.20);
+        box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.20);
+    }
+    </style>
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">

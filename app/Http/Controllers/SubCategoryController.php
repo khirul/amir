@@ -49,8 +49,7 @@ class SubCategoryController extends Controller
 
   public function edit(subcategory $subcategory)
     {
-    	$lecturers= User::where('role','lecturer')->where('status',1)->get();
-    	return view('subcategory.edit',['subcategory'=>$subcategory,'lecturers'=>$lecturers]);
+    	return view('subcategory.edit',['subcategory'=>$subcategory]);
     }
 
     public function update(subcategory $subcategory, Request $request)
